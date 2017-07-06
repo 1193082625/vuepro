@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2017/7/6.
  */
-const api = require('./api')
+const api = require('./routers/api')
 const fs = require('fs')
 const path = require('path')
 const bodyParse = require('body-parser')
