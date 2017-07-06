@@ -3,8 +3,8 @@
  */
 
 'use strict'
-const models = require('./db')
 const express = require('express')
+const User = require('./models/User')
 const router = express.Router()
 
 // 创建账号接口
@@ -18,7 +18,7 @@ router.post('/api/login/createAccount', (req, res) => {
     return
   }
 
-  let newAccount = new models.Login({
+  let newAccount = new User({
     account: req.body.account,
     password: req.body.password
   })
@@ -33,7 +33,7 @@ router.post('/api/login/createAccount', (req, res) => {
 })
 // 获取已有账号接口
 router.get('/api/login/getAccount', (req, res) => {
-  models.Login.find((err, data) => {
+  User.find((err, data) => {
     if (err) {
       res.send(err)
     } else {
