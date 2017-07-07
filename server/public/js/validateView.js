@@ -10,7 +10,7 @@ $().ready(function () {
       },
       password: {
         required: true,
-        minlength: 6
+        isPassword: true
       }
     },
     messages: {
@@ -19,7 +19,7 @@ $().ready(function () {
       },
       password: {
         required: '请输入密码',
-        minlength: '密码长度不能小于 6 个字母'
+        isPassword: '密码至少包含数字字母，并且6-12位'
       }
     },
     submitHandler: function () {
@@ -35,6 +35,8 @@ $().ready(function () {
         success: function (result) {
           if (result.status === 1) {
             window.location.reload()
+          } else {
+            console.log(result)
           }
         }
       })
@@ -48,11 +50,11 @@ $().ready(function () {
       },
       password: {
         required: true,
-        minlength: 6
+        isPassword: true
       },
       repassword: {
         required: true,
-        minlength: 6,
+        isPassword: true,
         equalTo: '#password'
       }
     },
@@ -62,11 +64,11 @@ $().ready(function () {
       },
       password: {
         required: '请输入密码',
-        minlength: '密码长度不能小于 6 个字母'
+        isPassword: '密码至少包含数字字母，并且6-12位'
       },
       repassword: {
         required: '请输入密码',
-        minlength: '密码长度不能小于 6 个字母',
+        isPassword: '密码至少包含数字字母，并且6-12位',
         equalTo: '两次密码输入不一致'
       }
     },
@@ -86,4 +88,8 @@ $().ready(function () {
       })
     }
   })
+  jQuery.validator.addMethod('isPassword', (value) => {
+    var password = /^(?=.*[0-9].*)(?=.*[a-z].*).{6,12}$/
+    return password.test(value)
+  }, '密码至少包含数字字母，并且6-12位')
 })

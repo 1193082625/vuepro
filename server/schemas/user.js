@@ -4,7 +4,7 @@
 const mongoose = require('mongoose')
 
 module.exports = new mongoose.Schema({
-  account: String,
+  username: String,
   password: String
 })
 
