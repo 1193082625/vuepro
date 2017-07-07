@@ -5,6 +5,7 @@ const bodyParse = require('body-parser')
 const swig = require('swig')
 const express = require('express')
 const mongoose = require('mongoose')
+const Cookies = require('cookies')
 const app = express()
 
 app.use('/public', express.static('public'))
@@ -25,6 +26,20 @@ swig.setDefaults({cache: false})
 // })
 app.use(bodyParse.json())
 app.use(bodyParse.urlencoded({extended: false}))
+
+app.use(function (req, res, next) {
+  req.cookies = new Cookies(req, res)
+  if (req.cookies.get('userInfo')) {
+    try {
+      req.userInfo = JSON.parse(req.cookies.get('userInfo'))
+      next()
+    } catch (e) {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 app.use('/api', require('./routers/api'))
 app.use('/admin', require('./routers/admin'))

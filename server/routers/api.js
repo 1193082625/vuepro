@@ -4,8 +4,8 @@
 
 'use strict'
 const express = require('express')
-const User = require('../models/User')
 const router = express.Router()
+const User = require('../models/User')
 
 // 创建账号接口
 router.post('/login/createAccount', (req, res) => {

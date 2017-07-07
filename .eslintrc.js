@@ -8,6 +8,8 @@ module.exports = {
   },
   env: {
     browser: true,
+    // 添加
+    jquery: true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',

@@ -29,10 +29,10 @@
         </ul>
       </div>
       <div style="float: right;line-height: 52px;">
-        <!--{% if userInfo._id %}-->
-        <!--欢迎您：{{userInfo.username}}-->
-        <!--<a id="logout" href="javascript:;">退出登录</a>-->
-        <!--{% endif %}-->
+        {% if userInfo._id %}
+        欢迎您：{{userInfo.username}}
+        <a id="logout" href="javascript:;">退出登录</a>
+        {% endif %}
       </div>
     </div>
   </nav>
