@@ -8,7 +8,7 @@ const User = require('../models/User')
 const router = express.Router()
 
 // 创建账号接口
-router.post('/api/login/createAccount', (req, res) => {
+router.post('/login/createAccount', (req, res) => {
   if (req.body.account === '') {
     res.send('账号不能为空')
     return
@@ -32,7 +32,7 @@ router.post('/api/login/createAccount', (req, res) => {
   })
 })
 // 获取已有账号接口
-router.get('/api/login/getAccount', (req, res) => {
+router.get('/login/getAccount', (req, res) => {
   User.find((err, data) => {
     if (err) {
       res.send(err)

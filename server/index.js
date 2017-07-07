@@ -1,24 +1,33 @@
 /**
  * Created by Administrator on 2017/7/6.
  */
-const api = require('./routers/api')
-const fs = require('fs')
-const path = require('path')
 const bodyParse = require('body-parser')
+const swig = require('swig')
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 
+app.use('/public', express.static('public'))
+
+app.engine('html', swig.renderFile)
+
+app.set('views', 'admin')
+app.set('view engine', 'html')
+
+swig.setDefaults({cache: false})
+
+// 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
+// app.use(express.static(path.resolve(__dirname, '../dist')))
+// 因为是单页应用 所有请求都走/dist/index.html
+// app.get('*', function (req, res) {
+//   const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
+//   res.send(html)
+// })
 app.use(bodyParse.json())
 app.use(bodyParse.urlencoded({extended: false}))
-app.use(api)
-// 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
-app.use(express.static(path.resolve(__dirname, '../dist')))
-// 因为是单页应用 所有请求都走/dist/index.html
-app.get('*', function (req, res) {
-  const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
-  res.send(html)
-})
+
+app.use('/api', require('./routers/api'))
+app.use('/admin', require('./routers/admin'))
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27020/vuepro', function (err) {

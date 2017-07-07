@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>后台管理</title>
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/css/index.css">
+  <script src="/public/js/jquery-3.0.0.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+  <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+  <script src="/public/js/validateView.js"></script>
+  <script src="/public/js/index.js"></script>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">后台管理</a>
+      </div>
+      <div>
+        <ul class="nav navbar-nav" id="menu">
+          <li class="active"><a href="/admin">首页</a></li>
+          <li><a href="/admin/article">文章管理</a></li>
+          <li><a href="/admin/category">分类管理</a></li>
+        </ul>
+      </div>
+      <div style="float: right;line-height: 52px;">
+        <!--{% if userInfo._id %}-->
+        <!--欢迎您：{{userInfo.username}}-->
+        <!--<a id="logout" href="javascript:;">退出登录</a>-->
+        <!--{% endif %}-->
+      </div>
+    </div>
+  </nav>
+
+  <div class="clear"></div>
+  <div class="col-sm-12">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+</body>
+</html>

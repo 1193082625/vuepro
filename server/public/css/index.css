@@ -1,0 +1,21 @@
+*{
+    font-family: "微软雅黑";
+}
+/*表单验证*/
+.error{
+    color:red;
+    font-size: 13px;
+}
+
+.rightBox h2{
+    text-align: center;
+    font-size: 16px;
+}
+.hasUserBtn{
+    line-height: 34px;
+    text-align: right;
+}
+.registerBtn{
+    line-height: 27px;
+    text-align: right;
+}
