@@ -6,7 +6,6 @@ const swig = require('swig')
 const express = require('express')
 const mongoose = require('mongoose')
 const Cookies = require('cookies')
-// const crypto = require('crypto')
 const app = express()
 
 app.use('/public', express.static('public'))
