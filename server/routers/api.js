@@ -6,6 +6,8 @@ const express = require('express')
 const router = express.Router()
 const crypto = require('crypto')
 const User = require('../models/User')
+const Article = require('../models/Article')
+const Category = require('../models/Category')
 
 var responseData
 
@@ -117,6 +119,35 @@ router.get('/logout', (req, res) => {
   req.cookies.set('userInfo', null)
   responseData.status = 1
   res.json(responseData)
+})
+
+/**
+ * 文章列表
+ */
+router.get('/articleList', (req, res) => {
+  var page = Number(req.query.page || 1)
+  var limit = 10
+  var pages = 0
+  Article.count().then((count) => {
+    // 获取总页数
+    pages = Math.ceil(count / limit)
+    // 取值不能超过总页数
+    page = Math.min(page, pages)
+    // 取值不能小于1
+    page = Math.max(1, page)
+    var skip = (page - 1) * limit
+    Article.find().sort({addTime: -1}).limit(limit).skip(skip).populate(['category', 'user']).then((articles) => {
+      responseData.articles = articles
+      responseData.page = page
+      responseData.count = count
+      responseData.pages = pages
+      res.json(responseData)
+    }).catch((err) => {
+      responseData.status = 0
+      responseData.msg = err
+      res.json(responseData)
+    })
+  })
 })
 
 module.exports = router

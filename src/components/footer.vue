@@ -8,5 +8,8 @@
 </template>
 <style>
   .blog-footer{
+    background: #e8e8e8;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 </style>

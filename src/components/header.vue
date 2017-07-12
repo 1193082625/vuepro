@@ -14,7 +14,7 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">首页</a></li>
-          <li><a href="#/login">登录</a></li>
+          <li><a href="#/article">文章</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">会员 <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
