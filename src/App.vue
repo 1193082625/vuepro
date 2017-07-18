@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <HtmlHeader></HtmlHeader>
-    <img src="./assets/logo.png">
+    <!--<img src="./assets/logo.png">-->
     <router-view style="min-height: 500px"></router-view>
     <HtmlFooter></HtmlFooter>
   </div>

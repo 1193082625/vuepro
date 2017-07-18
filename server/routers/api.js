@@ -7,7 +7,6 @@ const router = express.Router()
 const crypto = require('crypto')
 const User = require('../models/User')
 const Article = require('../models/Article')
-const Category = require('../models/Category')
 
 var responseData
 
@@ -17,17 +16,6 @@ router.use(function (req, res, next) {
     message: ''
   }
   next()
-})
-
-// 获取已有账号接口
-router.get('/login/getAccount', (req, res) => {
-  User.find((err, data) => {
-    if (err) {
-      res.send(err)
-    } else {
-      res.send(data)
-    }
-  })
 })
 
 /**
@@ -126,7 +114,7 @@ router.get('/logout', (req, res) => {
  */
 router.get('/articleList', (req, res) => {
   var page = Number(req.query.page || 1)
-  var limit = 10
+  var limit = Number(req.query.limit || 10)
   var pages = 0
   Article.count().then((count) => {
     // 获取总页数
@@ -138,7 +126,6 @@ router.get('/articleList', (req, res) => {
     var skip = (page - 1) * limit
     Article.find().sort({addTime: -1}).limit(limit).skip(skip).populate(['category', 'user']).then((articles) => {
       responseData.articles = articles
-      responseData.page = page
       responseData.count = count
       responseData.pages = pages
       res.json(responseData)
@@ -147,6 +134,44 @@ router.get('/articleList', (req, res) => {
       responseData.msg = err
       res.json(responseData)
     })
+  })
+})
+
+/**
+ * 文章详情
+ */
+router.get('/articleView', (req, res) => {
+  var articleId = req.query.id || ''
+  Article.findOne({
+    _id: articleId
+  }).populate(['category', 'user']).then((article) => {
+    responseData.article = article
+    article.views++
+    article.save()
+    res.json(responseData)
+  })
+})
+
+/**
+ * 评论提交
+ */
+router.post('/commitMsg', (req, res) => {
+  var articleId = req.body.id || ''
+  var postData = {
+    postTime: new Date(),
+    content: req.body.content
+  }
+  // console.log(articleId)
+  Article.findOne({
+    _id: articleId
+  }).then((article) => {
+    article.message.push(postData)
+    return article.save()
+  }).then((newArticle) => {
+    responseData.status = 1
+    responseData.message = '评论成功'
+    responseData.data = newArticle
+    res.json(responseData)
   })
 })
 
