@@ -25,7 +25,7 @@
             <a href="javascript:;">没有上一页了</a>
           </li>
           <li class="previous" v-else>
-            <a href="javascript:;" @click="getList(page - 1)">上一页</a>
+            <a href="javascript:;" @click="getList(page - 1, categoryType)">上一页</a>
           </li>
           <li v-if="pages > 0">
             <strong>{{page}} / {{pages}}</strong>
@@ -34,13 +34,21 @@
             <a href="javascript:;">没有下一页了</a>
           </li>
           <li class="next" v-else>
-            <a href="javascript:;" @click="getList(page + 1)">下一页</a>
+            <a href="javascript:;" @click="getList(page + 1, categoryType)">下一页</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="col-sm-4">
       <h3>分类</h3>
+      <ul v-if="categories">
+        <li>
+          <a href="javascript:;" @click="getList(1, '')">全部</a>
+        </li>
+        <li v-for="category in categories">
+          <a href="javascript:;" @click="getList(1, category._id)">{{category.name}}</a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -55,6 +63,8 @@
       return {
         tips: '',
         articles: null,
+        categories: null,
+        categoryType: '',
         page: 1,
         limit: 10,
         count: 0,
@@ -63,15 +73,27 @@
     },
     created: function () {
 //        页面初次加载请求后台第一页的数据
-      this.getList(1)
+      this.getList(1, '')
+      this.axios.get('/api/categoryList')
+        .then((result) => {
+          if (result.data.status === 1) {
+            this.categories = result.data.categories
+          }
+        })
     },
     methods: {
-      getList: function (newPage) {
-        this.page = newPage
+      getList: function (newPage, category) {
+        if (this.page !== newPage) {
+          this.page = newPage
+        }
+        if (this.categoryType !== category) {
+          this.categoryType = category
+        }
         this.axios.get('/api/articleList', {
           params: {
-            page: this.page,
-            limit: this.limit
+            page: newPage,
+            limit: this.limit,
+            category: category
           }
         })
           .then((result) => {

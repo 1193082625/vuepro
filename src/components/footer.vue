@@ -15,5 +15,6 @@
     bottom:0;
     left:0;
     width: 100%;
+    text-align: center;
   }
 </style>

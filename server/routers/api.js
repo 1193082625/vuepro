@@ -7,6 +7,7 @@ const router = express.Router()
 const crypto = require('crypto')
 const User = require('../models/User')
 const Article = require('../models/Article')
+const Category = require('../models/Category')
 
 var responseData
 
@@ -115,8 +116,14 @@ router.get('/logout', (req, res) => {
 router.get('/articleList', (req, res) => {
   var page = Number(req.query.page || 1)
   var limit = Number(req.query.limit || 10)
+  var categoryType = req.query.category
   var pages = 0
-  Article.count().then((count) => {
+  var where = {}
+
+  if (categoryType) {
+    where.category = categoryType
+  }
+  Article.where(where).count().then((count) => {
     // 获取总页数
     pages = Math.ceil(count / limit)
     // 取值不能超过总页数
@@ -124,16 +131,27 @@ router.get('/articleList', (req, res) => {
     // 取值不能小于1
     page = Math.max(1, page)
     var skip = (page - 1) * limit
-    Article.find().sort({addTime: -1}).limit(limit).skip(skip).populate(['category', 'user']).then((articles) => {
-      responseData.articles = articles
-      responseData.count = count
-      responseData.pages = pages
-      res.json(responseData)
-    }).catch((err) => {
-      responseData.status = 0
-      responseData.msg = err
-      res.json(responseData)
-    })
+
+    return Article.where(where).find().sort({addTime: -1}).limit(limit).skip(skip).populate(['category', 'user'])
+  }).then((articles) => {
+    responseData.articles = articles
+    responseData.count = articles.length
+    responseData.pages = pages
+    res.json(responseData)
+  }).catch((err) => {
+    responseData.status = 0
+    responseData.msg = err
+    res.json(responseData)
+  })
+})
+/**
+ * 获取分类
+ */
+router.get('/categoryList', (req, res) => {
+  Category.find().then((categies) => {
+    responseData.status = 1
+    responseData.categories = categies
+    res.json(responseData)
   })
 })
 
