@@ -2,7 +2,7 @@
   <div id="app">
     <HtmlHeader></HtmlHeader>
     <!--<img src="./assets/logo.png">-->
-    <router-view style="min-height: 500px"></router-view>
+    <router-view :key="key" style="min-height: 500px"></router-view>
     <HtmlFooter></HtmlFooter>
   </div>
 </template>
@@ -15,6 +15,12 @@ export default {
     components: {
       HtmlHeader,
       HtmlFooter
+    },
+    computed: {
+      key () {
+//          判断如果是文章详情页，则在路由后添加时间让页面刷新
+        return this.$route.name === 'ArticleView' ? this.$route.name + new Date() : this.$route
+      }
     }
 }
 </script>
@@ -32,5 +38,8 @@ ul,li{
   margin: 0;
   padding: 0;
   list-style: none;
+}
+.clear{
+  clear:both
 }
 </style>

@@ -42,7 +42,7 @@ app.use(function (req, res, next) {
 })
 
 app.use('/api', require('./routers/api'))
-app.use('/admin', require('./routers/admin'))
+app.use('/', require('./routers/admin'))
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27020/vuepro', function (err) {

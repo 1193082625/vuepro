@@ -5,6 +5,7 @@
 const express = require('express')
 const router = express.Router()
 const crypto = require('crypto')
+const mongoose = require('mongoose')
 const User = require('../models/User')
 const Article = require('../models/Article')
 const Category = require('../models/Category')
@@ -158,8 +159,28 @@ router.get('/categoryList', (req, res) => {
 /**
  * 文章详情
  */
-router.get('/articleView', (req, res) => {
+router.get('/articleView', (req, res, next) => {
   var articleId = req.query.id || ''
+  responseData.nextArticleId = ''
+  responseData.preArticleId = ''
+  Article.find({
+    _id: {'$lt': mongoose.Types.ObjectId(articleId)}
+  }).sort({addTime: -1}).limit(1).then((nextArticles) => {
+    if (nextArticles.length > 0) {
+      responseData.nextArticleId = nextArticles[0]._id
+    }
+  }).catch((err) => {
+    console.log(err)
+  })
+  Article.find({
+    _id: {'$gt': mongoose.Types.ObjectId(articleId)}
+  }).sort({addTime: -1}).limit(1).then((preArticles) => {
+    if (preArticles.length > 0) {
+      responseData.preArticleId = preArticles[0]._id
+    }
+  }).catch((err) => {
+    console.log(err)
+  })
   Article.findOne({
     _id: articleId
   }).populate(['category', 'user']).then((article) => {
@@ -167,6 +188,8 @@ router.get('/articleView', (req, res) => {
     article.views++
     article.save()
     res.json(responseData)
+  }).catch((err) => {
+    console.log(err)
   })
 })
 

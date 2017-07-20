@@ -1,7 +1,7 @@
 {% extends '../layout.html' %}
 {% block content %}
     <h1>文章管理首页</h1>
-    <a href="/admin/article/create">添加文章</a>
+    <a href="/article/create">添加文章</a>
 
     {%include '../page.html'%}
     <table class="table table-hover table-striped">
@@ -16,6 +16,7 @@
             <th>操作</th>
         </tr>
         {% for article in articles %}
+        <!--<li>{{ loop.index }} - {{ loop.key }}: {{ article.title }}</li>-->
         <tr>
             <!--<td>{{category._id.toString()}}</td>-->
             <td>{{article.title}}</td>
@@ -25,9 +26,9 @@
             <td>{{article.views}}</td>
             <td>{{article.description}}</td>
             <td>
-                <a href="/admin/article/view?id={{article._id.toString()}}">详情</a> |
-                <a href="/admin/article/edit?id={{article._id.toString()}}">修改</a> |
-                <a href="javascript:;" onclick="disp_confirm('/admin/article/delete?id={{article._id.toString()}}')">删除</a>
+                <a href="/article/view?id={{article._id.toString()}}">详情</a> |
+                <a href="/article/edit?id={{article._id.toString()}}">修改</a> |
+                <a href="javascript:;" onclick="disp_confirm('/article/delete?id={{article._id.toString()}}')">删除</a>
             </td>
         </tr>
         {%endfor%}

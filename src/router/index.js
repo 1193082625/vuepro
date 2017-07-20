@@ -6,7 +6,7 @@ import ArticleView from '@/components/articleView'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -25,3 +25,9 @@ export default new Router({
     }
   ]
 })
+router.afterEach((route) => {
+  // 路由跳转后触发
+  // console.log(route)
+})
+
+export default router

@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose')
 
-module.exports = new mongoose.Schema({
+var articleSchema = new mongoose.Schema({
   title: String,
   // 关联字段 - 分类id
   category: {
@@ -20,7 +20,8 @@ module.exports = new mongoose.Schema({
   },
   addTime: {
     type: Date,
-    default: new Date()
+    default: new Date(),
+    index: true
   },
   // 阅读量
   views: {
@@ -40,3 +41,4 @@ module.exports = new mongoose.Schema({
     default: []
   }
 })
+module.exports = articleSchema

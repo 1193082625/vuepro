@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="col-sm-8">
-      <h1>文章列表</h1>
       <ul v-if="articles">
         <li v-for="article in articles">
           <h3>{{ article.title }}</h3>
@@ -15,7 +14,6 @@
             <strong>简介：</strong>
             {{ article.description }}
           </p>
-          <!--<a href="#/articleView">阅读全文</a>-->
           <router-link :to="{path:'articleView',query: {id:article._id}}">阅读全文</router-link>
         </li>
       </ul>

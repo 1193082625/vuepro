@@ -4,9 +4,13 @@
 'use strict'
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const Category = require('../models/Category')
 const Article = require('../models/Article')
-
+var data = {
+  limit: 2,
+  backupArticles: null
+}
 // 获取已有账号接口
 router.get('/', (req, res) => {
   res.render('index', {
@@ -18,7 +22,7 @@ router.use(function (req, res, next) {
   if (req.userInfo === undefined) {
     res.render('error', {
       message: '要执行操作，请先登录',
-      url: '/admin'
+      url: '/'
     })
   } else {
     next()
@@ -30,24 +34,24 @@ router.use(function (req, res, next) {
  */
 router.get('/category', (req, res) => {
   var page = Number(req.query.page || 1)
-  var limit = 2
+  // var limit = 10
   var pages = 0
 
   Category.count().then((count) => {
     // 获取总页数
-    pages = Math.ceil(count / limit)
+    pages = Math.ceil(count / data.limit)
     // 取值不能超过pages
     page = Math.min(page, pages)
     // 取值不能小于1
     page = Math.max(page, 1)
 
-    var skip = (page - 1) * limit
+    var skip = (page - 1) * data.limit
     /*
      *sort 排序
      * 1:升序
      * -1: 降序
      * */
-    Category.find().sort({_id: -1}).limit(limit).skip(skip).then((categories) => {
+    Category.find().sort({_id: -1}).limit(data.limit).skip(skip).then((categories) => {
       res.render('category/index', {
         userInfo: req.userInfo,
         categories: categories,
@@ -56,7 +60,7 @@ router.get('/category', (req, res) => {
         page: page,
         count: count,
         pages: pages,
-        limit: limit
+        limit: data.limit
       })
     })
   }).catch((err) => {
@@ -98,7 +102,7 @@ router.post('/category/create', (req, res) => {
     res.render('success', {
       userInfo: req.userInfo,
       message: '分类保存成功',
-      url: '/admin/category'
+      url: '/category'
     })
   }).catch((err) => {
     console.log(err)
@@ -151,7 +155,7 @@ router.post('/category/edit', (req, res) => {
         res.render('success', {
           userInfo: req.userInfo,
           message: '修改成功',
-          url: '/admin/category'
+          url: '/category'
         })
         return Promise.reject()
       } else {
@@ -179,7 +183,7 @@ router.post('/category/edit', (req, res) => {
     res.render('success', {
       userInfo: req.userInfo,
       message: '修改成功',
-      url: '/admin/category'
+      url: '/category'
     })
   }).catch((err) => {
     console.log(err)
@@ -196,7 +200,7 @@ router.get('/category/delete', (req, res) => {
     res.render('success', {
       userInfo: req.userInfo,
       message: '删除成功',
-      url: '/admin/category'
+      url: '/category'
     })
   }).catch((err) => {
     console.log(err)
@@ -206,26 +210,27 @@ router.get('/category/delete', (req, res) => {
 /**
  * 文章首页
  */
+
 router.get('/article', (req, res) => {
   var page = Number(req.query.page || 1)
-  var limit = 2
+  // var limit = 2
   var pages = 0
 
   Article.count().then((count) => {
     // 获取总页数
-    pages = Math.ceil(count / limit)
+    pages = Math.ceil(count / data.limit)
     // 取值不能超过pages
     page = Math.min(page, pages)
     // 取值不能小于1
     page = Math.max(page, 1)
 
-    var skip = (page - 1) * limit
+    var skip = (page - 1) * data.limit
     /*
      *sort 排序
      * 1:升序
      * -1: 降序
      * */
-    Article.find().sort({addTime: -1}).limit(limit).skip(skip).populate(['category', 'user']).then((articles) => {
+    Article.find().sort({addTime: -1}).limit(data.limit).skip(skip).populate(['category', 'user']).then((articles) => {
       res.render('article/index', {
         userInfo: req.userInfo,
         articles: articles,
@@ -234,7 +239,7 @@ router.get('/article', (req, res) => {
         page: page,
         count: count,
         pages: pages,
-        limit: limit
+        limit: data.limit
       })
     })
   }).catch((err) => {
@@ -268,7 +273,7 @@ router.post('/article/create', (req, res) => {
     res.render('success', {
       userInfo: req.userInfo,
       message: '文章保存成功',
-      url: '/admin/article'
+      url: '/article'
     })
   }).catch((err) => {
     console.log(err)
@@ -345,7 +350,7 @@ router.post('/article/edit', (req, res) => {
     res.render('success', {
       userInfo: req.userInfo,
       message: '文章修改成功',
-      url: '/admin/article/edit?id=' + id
+      url: '/article/edit?id=' + id
     })
   })
 })
@@ -361,7 +366,7 @@ router.get('/article/delete', (req, res) => {
     res.render('success', {
       userInfo: req.userInfo,
       message: '文章删除成功',
-      url: '/admin/article'
+      url: '/article'
     })
   }).catch((err) => {
     console.log(err)

@@ -1,7 +1,7 @@
 <template>
   <div v-if="article">
-    <a href="javascript:;">上一篇</a>
-    <a href="javascript:;">下一篇</a>
+    <router-link v-if="preArticleId" :to="{path:'articleView',query: {id:preArticleId}}">上一篇</router-link>
+    <router-link v-if="nextArticleId" :to="{path:'articleView',query: {id:nextArticleId}}">下一篇</router-link>
     <div>
       <h1>{{ article.title }}</h1>
       <p>
@@ -23,11 +23,12 @@
     <br>
     <div class="listBox message">
       <h3 class="textLeft">
-        <strong>评论</strong>
-        <span class="em">一共有 <em id="messageCount">{{msgLength}}</em>条评论</span>
+        <strong class="pull-left">评论</strong>
+        <span class="em pull-right">一共有 <em id="messageCount">{{msgLength}}</em>条评论</span>
       </h3>
+      <div class="clear"></div>
       <p class="textLeft clear">
-        <textarea id="messageContent"></textarea>
+        <textarea id="messageContent" rows="5"></textarea>
         <button id="messageBtn" class="submit" @click="commitMsg">提交</button>
       </p>
       <div class="messageList" v-if="msgLength <= 0">
@@ -68,6 +69,10 @@
     display: table;
     margin: 20px auto;
   }
+  #messageContent{
+    width: 100%;
+    margin-top: 20px;
+  }
 </style>
 <script>
   export default{
@@ -80,7 +85,9 @@
         comments: [],
         id: '',
         msgLength: 0,
-        perComments: []
+        perComments: [],
+        preArticleId: '',
+        nextArticleId: ''
       }
     },
     created: function () {
@@ -91,6 +98,9 @@
         }
       })
       .then((result) => {
+//        console.log(result)
+        this.preArticleId = result.data.preArticleId
+        this.nextArticleId = result.data.nextArticleId
         this.article = result.data.article
         this.comments = result.data.article.message.reverse()
         this.msgLength = this.comments.length
