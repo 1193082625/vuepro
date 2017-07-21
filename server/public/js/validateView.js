@@ -42,6 +42,39 @@ $().ready(function () {
       })
     }
   })
+  $('#forgetForm').validate({
+    rules: {
+      username: {
+        required: true
+      }
+    },
+    messages: {
+      username: {
+        required: '请输入用户名'
+      }
+    },
+    submitHandler: function () {
+      // 登录
+      $.ajax({
+        type: 'post',
+        url: '/api/resetPsw',
+        data: {
+          username: $('#forgetForm').find('[name="username"]').val()
+        },
+        dataType: 'json',
+        success: function (result) {
+          if (result.status === 1) {
+            alert(result.message)
+            $('#registerForm').hide()
+            $('#forgetForm').hide()
+            $('#loginForm').show()
+          } else {
+            console.log(result)
+          }
+        }
+      })
+    }
+  })
 
   $('#registerForm').validate({
     rules: {

@@ -4,15 +4,24 @@
 $(function () {
   var $loginForm = $('#loginForm')
   var $registerForm = $('#registerForm')
+  var $forgetForm = $('#forgetForm')
   // 从登录切换到注册
   $('.registerBtn a').on('click', function () {
     $loginForm.hide()
+    $forgetForm.hide()
     $registerForm.show()
   })
   //  切换到登录
   $('.hasUserBtn a').on('click', function () {
     $registerForm.hide()
+    $forgetForm.hide()
     $loginForm.show()
+  })
+  //  切换到忘记密码
+  $('#forgetBtn').on('click', function () {
+    $registerForm.hide()
+    $loginForm.hide()
+    $forgetForm.show()
   })
 
   // 退出登录

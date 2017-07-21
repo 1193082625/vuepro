@@ -104,6 +104,41 @@ router.post('/login', (req, res) => {
   })
 })
 
+/**
+ * 重置密码
+ * 密码重置为123456blog
+ */
+router.post('/resetPsw', (req, res) => {
+  var username = req.body.username
+  if (username === '') {
+    res.send('账号不能为空')
+    return
+  }
+  // 当用户登录时，将用户提交的密码先以相同方式加密，然后与数据库中的密文比对，来判断密码的正误
+  var password = crypto.createHash('md5').update('123456blog').digest('hex')
+  User.findOne({
+    username: username
+  }).then(function (userInfo) {
+    if (!userInfo) {
+      responseData.message = '没有该用户'
+      res.json(responseData)
+      return
+    } else {
+      return User.update({
+        username: username
+      }, {
+        password: password
+      })
+    }
+  }).then(() => {
+    responseData.status = 1
+    responseData.message = '密码重置成功'
+    res.json(responseData)
+    return
+  }).catch((err) => {
+    console.log(err)
+  })
+})
 // 退出登录
 router.get('/logout', (req, res) => {
   req.cookies.set('userInfo', null)

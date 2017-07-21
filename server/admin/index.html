@@ -18,13 +18,38 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-12 registerBtn">
+      <div class="col-sm-6">
+        <a id="forgetBtn" href="javascript:;">忘记密码？</a>
+      </div>
+      <div class="col-sm-6 registerBtn">
         <a href="javascript:;">注册</a>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-4">
         <button type="submit" class="btn btn-default">登录</button>
+      </div>
+    </div>
+  </form>
+  <!--忘记密码-->
+  <form class="form-horizontal" role="form" id="forgetForm" style="display: none">
+    <h2>忘记密码</h2>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input type="text" class="form-control" name="username" placeholder="用户名">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-6">
+        <p style="color: #999">密码会被重置为123456blog</p>
+      </div>
+      <div class="col-sm-6 hasUserBtn">
+        <a href="javascript:;">登录</a>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-4">
+        <button type="submit" class="btn btn-default">重置密码</button>
       </div>
     </div>
   </form>
