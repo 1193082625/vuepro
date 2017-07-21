@@ -64,7 +64,7 @@
         categories: null,
         categoryType: '',
         page: 1,
-        limit: 10,
+        limit: 5,
         count: 0,
         pages: 0
       }

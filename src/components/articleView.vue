@@ -10,7 +10,7 @@
         <span>阅读：{{ article.views }}</span>
         <span>评论：{{ article.message.length }}</span>
       </p>
-      <p>{{ article.content }}</p>
+      <div v-html="article.content"></div>
     </div>
     <br>
     <br>

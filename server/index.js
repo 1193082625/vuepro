@@ -53,20 +53,20 @@ app.use('/ueditor/ue', ueditor(path.join(__dirname, 'public'), function (req, re
   if (req.query.action === 'uploadimage') {
     var foo = req.ueditor
     var imgname = req.ueditor.filename
-    var img_url = '/upload/images/'
+    var img_url = '/upload/images'
     // 你只要输入要保存的地址 。保存操作交给ueditor来做
     res.ue_up(img_url)
   } else if (req.query.action === 'uploadfile') {
     // 上传文件请求
-    var file_url = '/upload/file/' // 附件
+    var file_url = '/upload/file' // 附件
     res.ue_up(file_url)
   } else if (req.query.action === 'uploadvideo') {
     // 上传视频请求
-    var video_url = '/upload/video/' // 附件
+    var video_url = '/upload/video' // 附件
     res.ue_up(video_url)
   } else if (req.query.action === 'listimage') {
     //  客户端发起图片列表请求
-    var dir_url = '/upload/images/'
+    var dir_url = '/upload/images'
     // 客户端会列出 dir_url 目录下的所有图片
     res.ue_list(dir_url)
   } else {
