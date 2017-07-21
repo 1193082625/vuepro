@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display: table;width: 100%">
     <div class="col-sm-8">
       <ul v-if="articles">
         <li v-for="article in articles">

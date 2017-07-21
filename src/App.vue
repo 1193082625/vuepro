@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
-    <HtmlHeader></HtmlHeader>
+  <div>
     <!--<img src="./assets/logo.png">-->
-    <router-view :key="key" style="min-height: 500px"></router-view>
+    <div id="app">
+      <HtmlHeader></HtmlHeader>
+      <router-view :key="key" style="min-height: 500px"></router-view>
+    </div>
     <HtmlFooter></HtmlFooter>
   </div>
 </template>

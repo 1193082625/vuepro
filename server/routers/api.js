@@ -163,6 +163,7 @@ router.get('/articleView', (req, res, next) => {
   var articleId = req.query.id || ''
   responseData.nextArticleId = ''
   responseData.preArticleId = ''
+  var where = {}
   Article.find({
     _id: {'$lt': mongoose.Types.ObjectId(articleId)}
   }).sort({addTime: -1}).limit(1).then((nextArticles) => {
@@ -184,10 +185,21 @@ router.get('/articleView', (req, res, next) => {
   Article.findOne({
     _id: articleId
   }).populate(['category', 'user']).then((article) => {
-    responseData.article = article
-    article.views++
-    article.save()
-    res.json(responseData)
+    where.category = article.category._id
+    where._id = {'$ne': mongoose.Types.ObjectId(article._id)}
+    Article.where(where).find().sort({addTime: -1}).limit(5).then((relativeArticles) => {
+      if (relativeArticles) {
+        responseData.relativeArticles = relativeArticles
+      } else {
+        responseData.relativeArticles = ''
+      }
+      responseData.article = article
+      article.views++
+      article.save()
+      res.json(responseData)
+    }).catch((err) => {
+      console.log(err)
+    })
   }).catch((err) => {
     console.log(err)
   })

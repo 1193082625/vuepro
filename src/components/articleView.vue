@@ -6,7 +6,7 @@
       <h1>{{ article.title }}</h1>
       <p>
         <span>作者：{{ article.user.username }}</span>
-        <span>时间：{{ article.addTime }}</span>
+        <span>时间：{{ article.addTime| formaData }}</span>
         <span>阅读：{{ article.views }}</span>
         <span>评论：{{ article.message.length }}</span>
       </p>
@@ -15,8 +15,16 @@
     <br>
     <br>
     <br>
-    <div>
+    <div class="relativeArticles" v-if="relativeArticles">
       <h3>相关文章</h3>
+      <ul>
+        <li v-for="relativeArticle in relativeArticles">
+          <router-link :to="{path:'articleView',query: {id:relativeArticle._id}}">
+            <strong>{{relativeArticle.title}}</strong>
+            <span>{{relativeArticle.addTime| formaData}}</span>
+          </router-link>
+        </li>
+      </ul>
     </div>
     <br>
     <br>
@@ -73,6 +81,25 @@
     width: 100%;
     margin-top: 20px;
   }
+  .relativeArticles li{
+    line-height: 30px;
+    display: table;
+    width: 100%;
+  }
+  .relativeArticles li strong{
+    float: left;
+    display: block;
+    font-weight: normal;
+    width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .relativeArticles li span{
+    display: block;
+    float: right;
+    color: #999;
+  }
 </style>
 <script>
   export default{
@@ -87,7 +114,8 @@
         msgLength: 0,
         perComments: [],
         preArticleId: '',
-        nextArticleId: ''
+        nextArticleId: '',
+        relativeArticles: ''
       }
     },
     created: function () {
@@ -98,10 +126,10 @@
         }
       })
       .then((result) => {
-//        console.log(result)
         this.preArticleId = result.data.preArticleId
         this.nextArticleId = result.data.nextArticleId
         this.article = result.data.article
+        this.relativeArticles = result.data.relativeArticles
         this.comments = result.data.article.message.reverse()
         this.msgLength = this.comments.length
         this.renderComment()
