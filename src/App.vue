@@ -3,7 +3,7 @@
     <!--<img src="./assets/logo.png">-->
     <div id="app">
       <HtmlHeader></HtmlHeader>
-      <router-view :key="key" style="min-height: 500px"></router-view>
+      <router-view :key="key" style="min-height: 780px"></router-view>
     </div>
     <HtmlFooter></HtmlFooter>
   </div>

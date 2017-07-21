@@ -7,6 +7,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Cookies = require('cookies')
 const ueditor = require('ueditor')
+const http = require('http')
+const httpProxy = require('http-proxy')
 var path = require('path')
 const app = express()
 
@@ -82,7 +84,28 @@ mongoose.connect('mongodb://localhost:27020/vuepro', function (err) {
     console.log('数据库连接失败')
   } else {
     console.log('数据库连接成功')
-// 监听8088端口
+    // 监听8088端口
     app.listen(8088)
+    // http-proxy代理
+    var  proxy = httpProxy.createProxyServer()
+    proxy.on(function(err, req, res) { res.writeHead(500, { 'Content-Type': 'text/plain' }) })
+    http.createServer(function (req, res) {
+      var host = req.headers.host
+      switch (host) {
+        case 'www.adminblog.com':
+          proxy.web(req, res, { target: 'http://localhost:8088/' }, function (e) {
+            console.log(e)
+          })
+          break
+        case 'www.blog.com':
+          proxy.web(req, res, { target: 'http://localhost:8080' }, function (e) {
+            console.log(e)
+          })
+          break
+        default:
+          res.writeHead(200, { 'Content-Type': 'text/plain' })
+          res.end('Welcome to my server!')
+      }
+    }).listen(80)
   }
 })
