@@ -263,6 +263,7 @@ router.get('/article/create', (req, res) => {
  * 保存文章
  */
 router.post('/article/create', (req, res) => {
+  // console.log(req.body.content)
   new Article({
     title: req.body.title,
     category: req.body.category,

@@ -1,13 +1,32 @@
 {% extends '../layout.html' %}
 {% block content %}
-    <a href="/article">文章列表</a>
+  <style>
+    .items{
+      margin-top: 20px;
+      display: table;
+      width: 100%;
+    }
+    .content{
+      margin-top: 20px;
+      line-height: 26px;
+    }
+  </style>
+    <a href="/article" class="title">文章列表</a>
     <div>
         <h1>{{article.title}}</h1>
-        <span>作者：{{article.user.username}}</span>
-        <span>发布时间：{{article.addTime | date('Y-m-d H:i:s',-8*60)}}</span>
-        <span>浏览量：{{article.views}}</span>
-        <span>所属分类：{{article.category.name}}</span>
-        <p>{{article.description}}</p>
-        <p>{{article.content}}</p>
+        <div class="items">
+          <span>作者：{{article.user.username}}</span>
+          <span>发布时间：{{article.addTime | date('Y-m-d H:i:s',-8*60)}}</span>
+          <span>浏览量：{{article.views}}</span>
+          <span>所属分类：{{article.category.name}}</span>
+        </div>
+        <div class="content">
+          {% autoescape %}
+            {{article.content}}
+          {% endautoescape %}
+        </div>
     </div>
+    <script>
+
+    </script>
 {% endblock %}
