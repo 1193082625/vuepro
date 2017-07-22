@@ -2,6 +2,7 @@
   <div v-if="article">
     <router-link v-if="preArticleId" :to="{path:'articleView',query: {id:preArticleId}}">上一篇</router-link>
     <router-link v-if="nextArticleId" :to="{path:'articleView',query: {id:nextArticleId}}">下一篇</router-link>
+    <a href="javascript" style="float: right" onclick="javascript:window.history.back();">返回上一页</a>
     <div>
       <h1>{{ article.title }}</h1>
       <p>

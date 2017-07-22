@@ -9,15 +9,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">{{ msg }}</a>
+        <a class="navbar-brand" href="#/hello">{{ msg }}</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav" id="menu">
           <li class="active">
             <a href="/">首页</a>
-          </li>
-          <li>
-            <a href="#/article">文章</a>
           </li>
         </ul>
       </div><!--/.nav-collapse -->

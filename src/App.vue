@@ -2,10 +2,10 @@
   <div>
     <!--<img src="./assets/logo.png">-->
     <div id="app">
-      <HtmlHeader></HtmlHeader>
-      <router-view :key="key" style="min-height: 780px"></router-view>
+      <!--<HtmlHeader></HtmlHeader>-->
+      <router-view class="mainCenter" :key="key"></router-view>
     </div>
-    <HtmlFooter></HtmlFooter>
+    <!--<HtmlFooter></HtmlFooter>-->
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
   padding: 20px;
 }
 ul,li{
@@ -43,5 +43,13 @@ ul,li{
 }
 .clear{
   clear:both
+}
+.mainCenter{
+  width: 80%;
+  margin-left: 10%;
+    min-height: 780px;
+    max-width: 1143px;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>
