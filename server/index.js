@@ -87,25 +87,34 @@ mongoose.connect('mongodb://localhost:27020/vuepro', function (err) {
     // 监听8088端口
     app.listen(8088)
     // http-proxy代理
+    /**
+     * 加上这段代码页面可以正常访问但是后台文章页上传文件时会出错，所以暂时注释了
+     * 用域名访问时，要确保80端口没有被其他程序占用
+     */
     var  proxy = httpProxy.createProxyServer()
     proxy.on(function(err, req, res) { res.writeHead(500, { 'Content-Type': 'text/plain' }) })
     http.createServer(function (req, res) {
       var host = req.headers.host
-      switch (host) {
-        case 'www.adminblog.com':
-          proxy.web(req, res, { target: 'http://localhost:8088/' }, function (e) {
-            console.log(e)
-          })
-          break
-        case 'www.blog.com':
-          proxy.web(req, res, { target: 'http://localhost:8080' }, function (e) {
-            console.log(e)
-          })
-          break
-        default:
-          res.writeHead(200, { 'Content-Type': 'text/plain' })
-          res.end('Welcome to my server!')
+      if (host === 'www.blog.com') {
+        proxy.web(req, res, { target: 'http://localhost:8080' }, function (e) {
+          console.log(e)
+        })
       }
+      // switch (host) {
+      //   case 'www.adminblog.com':
+      //     proxy.web(req, res, { target: 'http://localhost:8088/' }, function (e) {
+      //       console.log(e)
+      //     })
+      //     break
+      //   case 'www.blog.com':
+      //     proxy.web(req, res, { target: 'http://localhost:8080' }, function (e) {
+      //       console.log(e)
+      //     })
+      //     break
+      //   default:
+      //     res.writeHead(200, { 'Content-Type': 'text/plain' })
+      //     res.end('Welcome to my server!')
+      // }
     }).listen(80)
   }
 })

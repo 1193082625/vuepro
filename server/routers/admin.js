@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const Category = require('../models/Category')
 const Article = require('../models/Article')
 var data = {
-  limit: 2,
+  limit: 10,
   backupArticles: null
 }
 // 获取已有账号接口
