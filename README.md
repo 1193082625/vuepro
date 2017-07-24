@@ -57,6 +57,20 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 
 
+使用该项目：
+
+1、从git 克隆项目： git clone git@github.com:1193082625/vuepro.git	
+
+2、安装依赖包： npm install --save
+
+3、在根目录添加db文件夹，以链接该项目的数据库（如果链接该db，则是新数据库，需要在后台添加新的内容）
+
+4、运行后台：进入server文件夹，运行index.js文件
+
+5、运行前台：npm run dev
+
+
+
 ## 目录结构
 
 **bulid** 里面是一些操作文件，使用npm run *时其实执行的就是这里的文件
